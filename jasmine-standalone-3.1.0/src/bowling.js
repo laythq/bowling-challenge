@@ -1,40 +1,41 @@
-var Airport = function() {
-  this.planes = []
-  this.capacity = 1
-  this.weatherGenerator = 0
+Frame = function() {
+  this.totalScore = 0
+  this.currentFrame = 0
+  this.spare = false
 }
 
-var Plane = function() {}
-
-Airport.prototype.weather = function() {
-  if (this.rand() % 2 == 0) {
-    return true
+Frame.prototype.roll1 = function(value) {
+  if (this.spare === true) {
+    this.spare = false
+    this.totalScore += value
   }
-    return false
+
+    if (value === 10) {
+        this.currentFrame += value
+        this.newFrame()
+        return 'Strike'
+                      }
+    else {
+        this.currentFrame += value
+        return value
+        }
+
 }
 
-Airport.prototype.land = function(plane) {
-  if (this.planes.length == this.capacity) {
-    throw "Cannot land: airport full"
+Frame.prototype.roll2 = function(value) {
+  if ((this.currentFrame + value) === 10) {
+    this.currentFrame += value
+    this.newFrame()
+    this.spare = true
   }
-  else if (this.weather() == true) {
-    throw "Cannot land: stormy weather"
-  }
-  else this.planes.push(plane)
-  return "Plane landed successfully"
+  else {
+    this.currentFrame += value
+    this.newFrame()
+    return value
+}
 }
 
-Airport.prototype.takeoff = function(plane) {
-  if (this.planes.length == 0) {
-    throw "Cannot takeoff: airport empty"
-  }
-  else if (this.weather() == true) {
-    throw "Cannot takeoff: stormy weather"
-  }
-  else this.planes.pop(plane)
-  return "Plane took off successfully"
-}
-
-Airport.prototype.rand = function() {
-  return Math.floor((Math.random() * 10) + 1)
+Frame.prototype.newFrame = function() {
+  this.totalScore += this.currentFrame
+  this.currentFrame = 0
 }
