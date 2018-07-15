@@ -13,7 +13,6 @@ Frame.prototype.roll1 = function(value) {
   //   // Bonus roll?
   // }
 
-
   if (this.spare === true) {
   this.spare = false
   this.totalScore += value
