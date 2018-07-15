@@ -189,17 +189,28 @@ describe('#tripleStrike', function() {
 })
 
 describe('#10th Frame', function() {
-  it('reaching the 10th frame toggles #final on', function() {
-    frame.frameNumber = 9
-    frame.newFrame()
-    expect(frame.final).toBe(true)
-  })
+  // it('reaching the 10th frame toggles #final on', function() {
+  //   frame.frameNumber = 9
+  //   frame.newFrame()
+  //   expect(frame.final).toBe(true)
+  // })
 
   it('ends with an open frame', function() {
     frame.final = true
     frame.totalScore = 100
     frame.roll1(1)
-    expect(frame.roll2(2)).toBe(103)
+    frame.roll2(3)
+    expect(frame.totalScore).toBe(104)
+  })
+
+  it('ends with a spare, then an open frame', function(){
+    frame.frameNumber = 9
+    frame.totalScore = 141
+    frame.roll1(8)
+    frame.roll2(2)
+    frame.roll1(6)
+    frame.bonus(1)
+    expect(frame.totalScore).toBe(164)
   })
 
   it('ends with a spare, and a bonus roll', function () {
@@ -207,44 +218,48 @@ describe('#10th Frame', function() {
     frame.totalScore = 100
     frame.roll1(2)
     frame.roll2(8)
-    expect(frame.roll1(4)).toBe(114)
+    frame.bonus(3)
+    expect(frame.totalScore).toBe(113)
   })
 
   it('ends with a strike, and an open frame', function() {
     frame.final = true
     frame.totalScore = 100
     frame.roll1(10)
-    frame.roll1(4)
-    expect(frame.roll2(3)).toBe(124)
+    frame.bonus(4)
+    frame.bonus(3)
+    expect(frame.totalScore).toBe(117)
   })
 
   it('ends with two strikes and a normal role', function() {
     frame.final = true
     frame.totalScore = 100
     frame.roll1(10)
-    frame.roll1(10)
-    expect(frame.roll1(4)).toBe(142)
+    frame.bonus(10)
+    frame.bonus(5)
+    expect(frame.totalScore).toBe(125)
   })
 
   it('ends with three strikes', function() {
     frame.final = true
     frame.totalScore = 100
     frame.roll1(10)
-    frame.roll1(10)
-    expect(frame.roll1(10)).toBe(130)
+    frame.bonus(10)
+    frame.bonus(10)
+    expect(frame.totalScore).toBe(130)
   })
 
 })
 
 describe('#frameNumber', function() {
-  it('counts the frame number', function() {
-    frame.roll1(1)
-    frame.roll2(3)
-    frame.roll1(10)
-    frame.roll1(2)
-    frame.roll2(3)
-    expect(frame.frameNumber).toBe(3)
-  })
+  // it('counts the frame number', function() {
+  //   frame.roll1(1)
+  //   frame.roll2(3)
+  //   frame.roll1(10)
+  //   frame.roll1(2)
+  //   frame.roll2(3)
+  //   expect(frame.frameNumber).toBe(4)
+  // })
 })
 
 // describe('#perfectFinal', function() {
@@ -331,7 +346,7 @@ describe('scenarios: ', function() {
     frame.roll1(10)
     frame.roll1(2)
     frame.roll2(8)
-    frame.roll1(6)
+    frame.bonus(6)
     expect(frame.totalScore).toBe(133)
   })
 
@@ -346,10 +361,91 @@ describe('scenarios: ', function() {
     frame.roll1(10)
     frame.roll1(10)
     frame.roll1(10)
-    frame.roll1(10)
-    frame.roll1(10)
+    frame.bonus(10)
+    frame.bonus(10)
     expect(frame.totalScore).toBe(300)
+  })
 
+  it('9. normal game with perfect end', function () {
+    frame.roll1(1)
+    frame.roll2(4)
+    frame.roll1(4)
+    frame.roll2(5)
+    frame.roll1(6)
+    frame.roll2(4)
+    frame.roll1(5)
+    frame.roll2(5)
+    frame.roll1(10)
+    frame.roll1(1)
+    frame.roll2(0)
+    frame.roll1(7)
+    frame.roll2(3)
+    frame.roll1(6)
+    frame.roll2(4)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.bonus(10)
+    frame.bonus(10)
+    expect(frame.totalScore).toBe(157)
+  })
+
+  it('10. example game', function() {
+    frame.roll1(10)
+    frame.roll1(8)
+    frame.roll2(2)
+    frame.roll1(9)
+    frame.roll2(1)
+    frame.roll1(8)
+    frame.roll2(0)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(9)
+    frame.roll2(1)
+    frame.roll1(9)
+    frame.roll2(1)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.bonus(9)
+    frame.bonus(1)
+    expect(frame.totalScore).toBe(202)
+  })
+
+  it('11. example game', function() {
+    frame.roll1(7)
+    frame.roll2(3)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(8)
+    frame.roll2(1)
+    frame.roll1(9)
+    frame.roll2(1)
+    frame.roll1(8)
+    frame.roll2(1)
+    frame.roll1(10)
+    frame.roll1(9)
+    frame.roll2(1)
+    frame.roll1(8)
+    frame.roll2(2)
+    frame.roll1(6)
+    frame.bonus(1)
+    expect(frame.totalScore).toBe(164)
+  })
+
+  it('12. example game', function () {
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(10)
+    frame.roll1(6)
+    frame.roll2(4)
+    frame.roll1(10)
+    frame.bonus(10)
+    frame.bonus(10)
+    expect(frame.totalScore).toBe(276)
   })
 })
 })
