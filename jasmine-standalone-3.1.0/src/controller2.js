@@ -42,7 +42,6 @@ $( document ).ready(function() {
         showScore()
         showFrame()
         alert("Final Frame: Please throw two bonus throws")
-        frame.frameNumber = 10
         $('#input').click(false)
       }
       else {
@@ -56,7 +55,7 @@ $( document ).ready(function() {
         alert("Final Frame: Please throw one bonus throw")
         frame.frameNumber = 10
       }
-      if (frame.strike === false) {
+      else {
         alert("Game Over")
         showScore()
         frame.frameNumber = 10
