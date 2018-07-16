@@ -1,1 +1,16 @@
 This program calculates the final score of a bowling match. The user inputs all rolls.
+
+Launching Cypress Test:
+
+Terminal 1:
+- Go to Bowling Root
+- $ node app.js
+  - Launches local hosted page at: localhost:3000
+
+Terminal 2:
+- Go to Bowling Root
+- $ ./node_modules/.bin/cypress open
+  - Open Cypress App
+
+- From Cypress App, select relevant Spec File
+  - Launches test through Chrome
